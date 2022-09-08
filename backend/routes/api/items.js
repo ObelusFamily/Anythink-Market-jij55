@@ -14,9 +14,7 @@ router.param("item", function(req, res, next, slug) {
       if (!item) {
         return res.sendStatus(404);
       }
-      if(item.image == ''){
-        item.image = '/placeholder.png';
-      }
+
       req.item = item;
 
       return next();
@@ -89,7 +87,7 @@ router.get("/", auth.optional, function(req, res, next) {
           items: await Promise.all(
             items.map(async function(item) {
               if(item.image == ''){
-                item.image = '/placeholder.png';
+                item.image = 'placeholder.png';
               }
               item.seller = await User.findById(item.seller);
               return item.toJSONFor(user);
@@ -170,7 +168,7 @@ router.get("/:item", auth.optional, function(req, res, next) {
     .then(function(results) {
       var user = results[0];
       if(req.item.image == ''){
-        req.item.image = '/placeholder.png';
+        req.item.image = '../placeholder.png';
       }
       return res.json({ item: req.item.toJSONFor(user) });
     })
